@@ -12,7 +12,7 @@ public class ConexaoBD {
     private Connection conexao;
 
     public ConexaoBD() {
-        this.servidor = "127.0.0.1";
+        this.servidor = "localhost";
         this.banco = "empresa";
         this.usuario = "root";
         this.senha = "1christyan";
