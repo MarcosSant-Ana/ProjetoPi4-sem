@@ -57,4 +57,35 @@ public class ProdutoDao {
 		}
 
 	}
+
+	public static void alterarProduto(Produto produto) {
+		try {
+			String sql = "update produtos set nome = ?, preco = ?, qtd = ?, avaliacao = ?, ativo = ?, descricao = ? where id = ?;";
+			PreparedStatement sentenca = conn.prepareStatement(sql);
+			sentenca.setString(1, produto.getNome());
+			sentenca.setDouble(2, produto.getPreco());
+			sentenca.setInt(3, produto.getQtd());
+			sentenca.setDouble(4, produto.getAvaliacao());
+			sentenca.setBoolean(5, produto.isAtivo());
+			sentenca.setString(6, produto.getDescricao());
+			sentenca.setInt(7, produto.getId());
+			sentenca.execute();
+			sentenca.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void alterarProdutoEstoquista(Produto produto) {
+		try {
+			String sql = "update produtos set qtd = ? where id = ?;";
+			PreparedStatement sentenca = conn.prepareStatement(sql);
+			sentenca.setInt(1, produto.getQtd());
+			sentenca.setInt(2, produto.getId());
+			sentenca.execute();
+			sentenca.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

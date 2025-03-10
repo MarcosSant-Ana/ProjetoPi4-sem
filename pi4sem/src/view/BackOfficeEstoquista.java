@@ -1,6 +1,10 @@
 package view;
 
 import java.util.Scanner;
+import dao.ProdutoDao;
+import dao.UsuarioDao;
+import model.Produto;
+import model.Usuario;
 
 public class BackOfficeEstoquista {
 	static Scanner ler = new Scanner(System.in);
@@ -25,10 +29,78 @@ public class BackOfficeEstoquista {
 			}
 		}
 	}
+	public static void viewListarProdutoEstoquista() {
+		boolean erro = true, sair = false;
+		do {
+			System.out.println("Listar Produto\nId  | \t Nome \t | \t Quantidade \t | \t Preço \t | \t Status");
 
-	private static void viewListarProduto() {
-		
-		
-	}  
+			for (Produto p : ProdutoDao.listarProdutos()) {
+				
+				System.out.println(p.toString());
+			}
 
+			System.out.println("---------------------------------------\n");
+
+			do {
+				System.out.println("Entre com o id para editar, 0 para voltar => ");
+				String r = ler.nextLine().trim();
+
+				if (r.equals("0")) {
+					erro = false;
+					sair = true;
+				} else if (r.matches("\\d+")) {
+					int idPedido = Integer.parseInt(r);
+					boolean encontrou = false;
+
+					for (Produto p : ProdutoDao.listarProdutos()) {
+						if (p.getId() == idPedido) {
+							viewAlterarProdutoEstoquista(p);
+							erro = false;
+							encontrou = true;
+							break;
+						}
+					}
+
+					if (!encontrou) {
+						System.out.println("Id não encontrado!");
+						erro = true;
+					}
+				} else {
+					System.out.println("Entrada inválida! Digite um Id válido ou 0 para voltar.");
+				}
+			} while (erro);
+		} while (!sair);
+	}
+
+	private static void viewAlterarProdutoEstoquista(Produto produto) {
+		System.out.println("\nAlterar Produto Estoquista\n");
+		System.out.println("Id: " + produto.getId());
+		System.out.println("Nome: " + produto.getNome());
+		System.out.println("Preço: " + produto.getPreco());
+		System.out.println("Qtd. Estoque: " + produto.getQtd());
+		System.out.println("Avaliação: " + produto.getAvaliacao());
+		System.out.println("Status => " + (produto.isAtivo() ? "ativo" : "inativo"));
+		System.out.println("---------------------------------------\n");
+		System.out.println("Qtd. Estoque =>");
+		int qtdEstoque = ler.nextInt();
+
+		do {
+			System.out.println("Salvar (y/n) =>");
+			String salvar = (ler.nextLine().trim().toLowerCase());
+
+			if (salvar.equals("y")) {
+				try {
+					ProdutoDao.alterarProdutoEstoquista(produto);
+					System.out.println("Produto alterado com sucesso!");
+				} catch (Exception e) {
+					System.out.println("Erro ao alterar Produto!");
+				}
+			} else if (salvar.equals("n")) {
+				return;
+			} else {
+				System.out.println("Comando não reconhecido");
+				valido = false;
+			}
+		} while (!valido);
+	}
 }
