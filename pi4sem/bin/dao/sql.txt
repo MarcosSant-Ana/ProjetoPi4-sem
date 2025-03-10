@@ -1,0 +1,27 @@
+create database if not exists empresa; 
+use empresa;
+CREATE Table Usuario(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR (100),
+    email VARCHAR(150) UNIQUE,
+    senha VARCHAR(100) not null,
+    cpf VARCHAR(100) UNIQUE,
+    tipo ENUM('cliente','funcionario'),
+    ativo BOOLEAN
+    
+);
+
+CREATE Table Cliente(
+    id int AUTO_INCREMENT PRIMARY KEY,
+    FOREIGN KEY (id) REFERENCES Usuario(id)
+);
+
+CREATE Table Funcionario(
+    id int PRIMARY KEY,
+    FOREIGN KEY (id) REFERENCES Usuario(id),
+    cargo ENUM('Administrador', 'Estoquista') NOT NULL
+);
+SELECT id,email,senha FROM usuario ORDER BY id;
+insert into Usuario (nome,cpf,email,senha,ativo,tipo) values
+ ('krobus','444-333','krobus@fritas.com','1234',true,'funcionario');
+insert into funcionario(id,cargo) values (last_insert_id(),'Administrador');
