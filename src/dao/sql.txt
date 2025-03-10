@@ -1,0 +1,34 @@
+create database if not exists empresa; 
+use empresa;
+CREATE Table Usuario(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR (100),
+    email VARCHAR(150) UNIQUE,
+    senha VARCHAR(100) not null,
+    cpf VARCHAR(100) UNIQUE,
+	cargo ENUM('Admin', 'Estoquista') NOT NULL,
+    ativo BOOLEAN
+    
+);
+create table produto(
+id int auto_increment primary key,
+nome varchar(100),
+preco double(10,2),
+qtd int,
+avaliacao double(10,2),
+descricao varchar(200),
+ativo boolean 
+);
+create table imagem (
+id int auto_increment Primary key,
+nome varchar(100),
+diretorio varchar(100),
+principal boolean ,
+produto_id INT, 
+CONSTRAINT fk_imagem_produto FOREIGN KEY (produto_id) REFERENCES produto(id) ON DELETE CASCADE
+);
+insert into Usuario (nome,cpf,email,senha,ativo,cargo) values
+ ('krobus','444-333','krobus@fritas.com', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', true,'Admin');
+
+ insert into Usuario (nome,cpf,email,senha,ativo,cargo) values
+ ('marcos','444-233','marcos@renan.com', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', true,'Estoquista');
