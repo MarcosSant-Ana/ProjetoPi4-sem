@@ -454,7 +454,7 @@ public class BackOfficeAdm {
 
 
 	private static void viewListarImagem() {
-		System.out.println("calma vida");
+		System.out.println("calma vida, ta de boa");
 		
 	}
 		
