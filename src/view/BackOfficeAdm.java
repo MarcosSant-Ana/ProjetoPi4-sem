@@ -13,7 +13,7 @@ public class BackOfficeAdm {
 	static Scanner ler = new Scanner(System.in);
 
 	public static void viewAdmin() {
-		while (true) {
+		do{
 			System.out.println("\n\n-------- BackOffice Admin --------\n" + "1) Listar produtos\n"
 					+ "2) Listar Usuários\n" + "0) Sair\n" + "Entre com a opção (1,2 ou 0) :");
 			String num = ler.nextLine();
@@ -28,12 +28,12 @@ public class BackOfficeAdm {
 				break;
 			case 0:
 				System.out.println("Saindo...");
-				return;
+				System.exit(0);
 			default:
 				System.out.println("Opção inválida");
 			}
 
-		}
+		}while (true) ;
 	}
 
 	public static void viewListarUsuarios() {
@@ -366,8 +366,9 @@ public class BackOfficeAdm {
 					viewIncluirProduto();
 					erro = false;
 				} else if (r.equals("0")) {
+					viewAdmin();
 					erro = false;
-					sair = true;
+					sair =true;
 				} else if (r.matches("\\d+")) {
 					int idPedido = Integer.parseInt(r);
 					boolean encontrou = false;
@@ -375,8 +376,6 @@ public class BackOfficeAdm {
 					for (Produto p : ProdutoDao.listarProdutos()) {
 						if (p.getId() == idPedido) {
 							viewEditarProduto(p);
-							erro = false;
-							encontrou = true;
 							break;
 						}
 					}
@@ -532,6 +531,7 @@ public class BackOfficeAdm {
 
 	private static void viewIncluirImagem(int idProduto) {
 		String nome, diretorio, resposta;
+		boolean sair=false;
 		Imagem imagem = new Imagem();
 		imagem.setIdProduto(idProduto);
 		System.out.println("Incluir Imagem");
@@ -571,19 +571,23 @@ public class BackOfficeAdm {
 				ImagemDao.incluirImagem(imagem);
 				System.out.println("incluido com sucesso !");
 				viewIncluirProduto();
+				sair=true;
 				break;
 			case 2:
 				ImagemDao.incluirImagem(imagem);
 				System.out.println("incluido com sucesso !");
 				viewListarProduto();
+				sair=true;
 				break;
 			case 3:
 				viewListarProduto();
+				sair=true;
 				break;
 			default:
 				System.out.println("Opção inválida!");
+				sair=false;
 			}
-		} while (true);
+		} while (!sair);
 	}
 
 	private static void viewAlterarProduto(Produto p) {

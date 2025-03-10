@@ -59,9 +59,10 @@ public class ImagemDao {
 	}
 	public static void nenhumaPrincipal(int idProduto) {
 		try {
-		String sql = "UPDATE imagem SET principal = FALSE;";
+		String sql = "UPDATE imagem SET principal = FALSE where produto_id =?;";
 		PreparedStatement sentenca = conn.prepareStatement(sql);
 		sentenca = conn.prepareStatement(sql);
+		sentenca.setInt(1, idProduto);
 		sentenca.execute();
 		sentenca.close();
 		}catch(SQLException e) {

@@ -109,7 +109,9 @@ public class ProdutoDao {
 		String sql = "SELECT LAST_INSERT_ID() as id;";
         PreparedStatement sentenca = conn.prepareStatement(sql);
         ResultSet resultado = sentenca.executeQuery();
+        if (resultado.next()) {
         id = resultado.getInt("id");
+        }
         resultado.close();
 		sentenca.close();
 		}catch(SQLException e) {
